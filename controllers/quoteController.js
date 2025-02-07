@@ -5,36 +5,91 @@ require("dotenv").config();
 // Handle form submission
 const submitForm = async (req, res) => {
   try {
-    const { firstName, lastName, email, message, service } = req.body;
-    // Save form data to the database
-    const newQuote = new Quote({ firstName, lastName, email, message, service });
-    await newQuote.save();
-    // Configure Nodemailer
-    let transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWORD,
-      },
-    });
-    // Email content
-    let mailOptions = {
-      from: email,
-      to:  process.env.EMAIL, // Send confirmation to the user
-      subject: "Quote Request Received",
-      html: `<h2>Thank you for reaching out!</h2>
-             <p><strong>Name:</strong> ${firstName} ${lastName}</p>
-             <p><strong>Email:</strong> ${email}</p>
-             <p><strong>Service Requested:</strong> ${service}</p>
-             <p><strong>Message:</strong> ${message}</p>
-             <p>We will get back to you soon.</p>`,
-    };
-    // Send email
-    await transporter.sendMail(mailOptions);
+      // Extract form data
+      const { firstName, lastName, email, message, service } = req.body;
 
-    res.status(201).json({ message: "Quote has been sent successfully", data: newQuote });
+      // Basic validation
+      if (!firstName || !lastName || !email || !message || !service) {
+          return res.status(400).json({
+              success: false,
+              message: 'All fields are required'
+          });
+      }
+
+      // Save to database
+      const newQuote = new Quote({
+          firstName,
+          lastName,
+          email: email.toLowerCase(),
+          message,
+          service
+      });
+      await newQuote.save();
+
+      // Configure email transport
+      const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+              user: process.env.EMAIL,
+              pass: process.env.PASSWORD
+          }
+      });
+
+      // Admin notification email
+      const adminMailOptions = {
+          from: email,
+          to: process.env.EMAIL,
+          subject: `New Quote Request - ${service}`,
+          html: `
+              <div style="font-family: Arial, sans-serif;">
+                  <h2>New Quote Request</h2>
+                  <div style="background-color: #f5f5f5; padding: 20px;">
+                      <h3>Client Details:</h3>
+                      <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+                      <p><strong>Email:</strong> ${email}</p>
+                      <p><strong>Service:</strong> ${service}</p>
+                      <div style="margin-top: 20px;">
+                          <h3>Message:</h3>
+                          <p>${message}</p>
+                      </div>
+                  </div>
+              </div>
+          `
+      };
+
+      // Client confirmation email
+      const clientMailOptions = {
+          from: process.env.EMAIL,
+          to: email,
+          subject: 'Quote Request Received',
+          html: `
+              <div style="font-family: Arial, sans-serif;">
+                  <h2>Thank You for Your Quote Request</h2>
+                  <p>Dear ${firstName},</p>
+                  <p>We have received your quote request for ${service}. 
+                     Our team will review your request and get back to you shortly.</p>
+                  <p>Best regards,<br>Your Company Name</p>
+              </div>
+          `
+      };
+
+      // Send emails
+      await transporter.sendMail(adminMailOptions);
+      await transporter.sendMail(clientMailOptions);
+
+      // Send success response
+      return res.status(201).json({
+          success: true,
+          message: 'Quote request submitted successfully',
+          data: newQuote
+      });
+
   } catch (error) {
-    res.status(400).json({ error: error.message });
+      console.error('Form submission error:', error);
+      return res.status(500).json({
+          success: false,
+          message: 'Error processing your request'
+      });
   }
 };
 
