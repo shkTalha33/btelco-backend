@@ -32,7 +32,7 @@ const submitForm = async (req, res) => {
     // Send email
     await transporter.sendMail(mailOptions);
 
-    res.status(201).json({ message: "Form submitted successfully! Email sent.", data: newQuote });
+    res.status(201).json({ message: "Quote has been sent successfully", data: newQuote });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
