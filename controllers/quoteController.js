@@ -68,7 +68,7 @@ const submitForm = async (req, res) => {
                   <p>Dear ${firstName},</p>
                   <p>We have received your quote request for ${service}. 
                      Our team will review your request and get back to you shortly.</p>
-                  <p>Best regards,<br>Your Company Name</p>
+                  <p>Best regards,<br>B-Telco</p>
               </div>
           `
       };
