@@ -25,7 +25,7 @@ const submitForm = async (req, res) => {
           service
       });
       await newQuote.save();
-
+      console.log("newQuote", newQuote)
       // Configure email transport
       const transporter = nodemailer.createTransport({
           service: 'gmail',
