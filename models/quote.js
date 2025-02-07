@@ -26,12 +26,12 @@ const QuoteSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    match: /^[0-9]{10,15}$/, // Ensures only numbers and a valid length
+    match: /^[0-9]{10,15}$/,
   },
   preferredContact: {
-    type: [String], // Array to allow multiple selections
+    type: [String],
     required: true,
-    enum: ["phone", "email"], // Ensures only valid values are stored
+    enum: ["phone", "email"],
   },
   message: {
     type: String,

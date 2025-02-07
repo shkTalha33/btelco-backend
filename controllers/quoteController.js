@@ -5,7 +5,6 @@ require("dotenv").config();
 // Handle form submission
 const submitForm = async (req, res) => {
   try {
-    // Extract form data
     const {
       firstName,
       lastName,
@@ -16,7 +15,6 @@ const submitForm = async (req, res) => {
       service,
     } = req.body;
 
-    // Basic validation
     if (
       !firstName ||
       !lastName ||
@@ -32,7 +30,6 @@ const submitForm = async (req, res) => {
       });
     }
 
-    // Save to database
     const newQuote = new Quote({
       firstName,
       lastName,
@@ -44,7 +41,6 @@ const submitForm = async (req, res) => {
     });
     await newQuote.save();
 
-    // Configure email transport
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -53,7 +49,6 @@ const submitForm = async (req, res) => {
       },
     });
 
-    // Admin notification email
     const adminMailOptions = {
       from: email,
       to: process.env.EMAIL,
@@ -79,7 +74,6 @@ const submitForm = async (req, res) => {
       `,
     };
 
-    // Client confirmation email
     const clientMailOptions = {
       from: process.env.EMAIL,
       to: email,
@@ -118,11 +112,9 @@ const submitForm = async (req, res) => {
     };
     
 
-    // Send emails
     await transporter.sendMail(adminMailOptions);
     await transporter.sendMail(clientMailOptions);
 
-    // Send success response
     return res.status(201).json({
       success: true,
       message: "Quote request submitted successfully",
@@ -137,7 +129,6 @@ const submitForm = async (req, res) => {
   }
 };
 
-// Get all quotes
 const getQuote = async (req, res) => {
   try {
     const quotes = await Quote.find();
