@@ -68,7 +68,7 @@ const submitForm = async (req, res) => {
                     <img 
                         src="https://res.cloudinary.com/dj6wp353y/image/upload/v1738922829/hgtposci1rpm2tmmkx9d.png" 
                         alt="B-TELCO Logo" 
-                        style="width: 80px; height: auto; margin-bottom: 10px;"
+                        style="width: 120px; height: auto; margin-bottom: 10px;"
                     />
                 </div>
     
