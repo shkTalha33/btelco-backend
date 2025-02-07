@@ -66,21 +66,10 @@ const submitForm = async (req, res) => {
                 <!-- Logo and Company Name Section -->
                 <div style="margin-bottom: 20px; text-align: center;">
                     <img 
-                        src="${process.env.DOMAIN_URL}/images/trans_logo.png" 
+                        src="https://res.cloudinary.com/dj6wp353y/image/upload/v1738922829/hgtposci1rpm2tmmkx9d.png" 
                         alt="B-TELCO Logo" 
                         style="width: 80px; height: auto; margin-bottom: 10px;"
                     />
-                    <div style="margin-top: 10px;">
-                        <span style="
-                            display: block;
-                            font-size: 24px;
-                            font-weight: bold;
-                            color: #2B0E61;
-                            font-family: 'Arial', sans-serif;
-                        ">
-                            B-TELCO
-                        </span>
-                    </div>
                 </div>
     
                 <!-- Email Content -->
