@@ -20,8 +20,8 @@ const QuoteSchema = new mongoose.Schema({
     required: true,
     trim: true,
     lowercase: true,
-    match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  },
+    match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  },  
   message: {
     type: String,
     required: true,

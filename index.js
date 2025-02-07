@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const connectDB = require("./db");
 const quoteRoutes = require("./routes/quoteRoutes");
 const blogRoutes = require("./routes/blogRoutes");
@@ -11,7 +12,9 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(express.json());
+app.use(cors()); // Enable CORS for cross-origin requests
+app.use(express.json()); // Parse JSON request bodies
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
 
 // Routes
 app.use("/api", quoteRoutes);
