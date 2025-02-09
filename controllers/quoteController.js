@@ -58,13 +58,13 @@ const submitForm = async (req, res) => {
               <h2>New Quote Request</h2>
               <div style="background-color: #f5f5f5; padding: 20px;">
                   <h3>Client Details:</h3>
-                  <p style="text-transform: uppercase;"><strong>Name:</strong> ${firstName} ${lastName}</p>
+                  <p"><strong>Name:</strong> ${firstName} ${lastName}</p>
                   <p><strong>Email:</strong> ${email}</p>
                   <p><strong>Phone:</strong> ${phone}</p>
-                  <p style="text-transform: uppercase;"><strong>Preferred Contact:</strong> ${preferredContact.join(
+                  <p"><strong>Preferred Contact:</strong> ${preferredContact.join(
                     ", "
                   )}</p>
-                  <p style="text-transform: uppercase;"><strong>Service:</strong> ${service}</p>
+                  <p"><strong>Service:</strong> ${service}</p>
                   <div style="margin-top: 20px;">
                       <h3>Message:</h3>
                       <p>${message}</p>
@@ -90,7 +90,7 @@ const submitForm = async (req, res) => {
     
               <div style="text-align: left; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
                   <h2 style="color: #2B0E61; margin-bottom: 20px;">Thank You for Your Quote Request</h2>
-                  <p style="margin-bottom: 15px; text-transform: uppercase;">Dear ${firstName},</p>
+                  <p style="margin-bottom: 15px;">Dear ${firstName},</p>
                   <p style="margin-bottom: 20px; line-height: 1.5;">
                      Thank you for reaching out to us and submitting your quote request. We have received your details and will review them promptly.
                   </p>
