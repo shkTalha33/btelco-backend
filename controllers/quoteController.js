@@ -58,13 +58,13 @@ const submitForm = async (req, res) => {
               <h2>New Quote Request</h2>
               <div style="background-color: #f5f5f5; padding: 20px;">
                   <h3>Client Details:</h3>
-                  <p"><strong>Name:</strong> ${firstName} ${lastName}</p>
+                  <p><strong>Name:</strong> ${firstName} ${lastName}</p>
                   <p><strong>Email:</strong> ${email}</p>
                   <p><strong>Phone:</strong> ${phone}</p>
-                  <p"><strong>Preferred Contact:</strong> ${preferredContact.join(
+                  <p><strong>Preferred Contact:</strong> ${preferredContact.join(
                     ", "
                   )}</p>
-                  <p"><strong>Service:</strong> ${service}</p>
+                  <p><strong>Service:</strong> ${service}</p>
                   <div style="margin-top: 20px;">
                       <h3>Message:</h3>
                       <p>${message}</p>
