@@ -27,7 +27,7 @@ const QuoteSchema = new mongoose.Schema({
     required: true,
     trim: true,
     match: /^\+?\d{10,15}$/,
-  }  
+  },
   preferredContact: {
     type: [String],
     required: true,
