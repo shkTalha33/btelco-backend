@@ -3,6 +3,27 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 // Handle form submission
+const transporter = nodemailer.createTransport({
+  host: "smtp.zoho.com",
+  port: 465, // or 587 if using TLS
+  secure: true, // true for SSL (465), false for TLS (587)
+  auth: {
+    user: process.env.ZOHO_EMAIL,
+    pass: process.env.ZOHO_PASSWORD,
+  },
+});
+
+console.log("ZOHO_EMAIL", process.env.ZOHO_EMAIL)
+console.log("ZOHO_PASSWORD", process.env.ZOHO_PASSWORD)
+
+transporter.verify((error, success) => {
+  if (error) {
+    console.log("SMTP Connection Error:", error);
+  } else {
+    console.log("SMTP Connected Successfully");
+  }
+});
+
 const submitForm = async (req, res) => {
   try {
     const {
@@ -15,15 +36,7 @@ const submitForm = async (req, res) => {
       service,
     } = req.body;
 
-    if (
-      !firstName ||
-      !lastName ||
-      !email ||
-      !phone ||
-      !preferredContact ||
-      !message ||
-      !service
-    ) {
+    if (!firstName || !lastName || !email || !phone || !preferredContact || !message || !service) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
@@ -41,17 +54,9 @@ const submitForm = async (req, res) => {
     });
     await newQuote.save();
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWORD,
-      },
-    });
-
     const adminMailOptions = {
-      from: email,
-      to: process.env.EMAIL,
+      from: process.env.ZOHO_EMAIL, // Ensure emails are sent from your Zoho email
+      to: process.env.ZOHO_EMAIL, // Admin email
       subject: `New Quote Request - ${service}`,
       html: `
           <div style="font-family: Arial, sans-serif;">
@@ -61,9 +66,7 @@ const submitForm = async (req, res) => {
                   <p><strong>Name:</strong> ${firstName} ${lastName}</p>
                   <p><strong>Email:</strong> ${email}</p>
                   <p><strong>Phone:</strong> ${phone}</p>
-                  <p><strong>Preferred Contact:</strong> ${preferredContact.join(
-                    ", "
-                  )}</p>
+                  <p><strong>Preferred Contact:</strong> ${preferredContact.join(", ")}</p>
                   <p><strong>Service:</strong> ${service}</p>
                   <div style="margin-top: 20px;">
                       <h3>Message:</h3>
@@ -75,7 +78,7 @@ const submitForm = async (req, res) => {
     };
 
     const clientMailOptions = {
-      from: process.env.EMAIL,
+      from: process.env.ZOHO_EMAIL,
       to: email,
       subject: "Quote Request Received",
       html: `
@@ -87,7 +90,7 @@ const submitForm = async (req, res) => {
                       style="width: 120px; height: auto; margin-bottom: 10px;"
                   />
               </div>
-    
+
               <div style="text-align: left; padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
                   <h2 style="color: #2B0E61; margin-bottom: 20px;">Thank You for Your Quote Request</h2>
                   <p style="margin-bottom: 15px;">Dear ${firstName},</p>
@@ -105,14 +108,13 @@ const submitForm = async (req, res) => {
                       <strong>B-TELCO Team</strong>
                   </p>
               </div>
-    
+
               <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666;">
                   <p>© ${new Date().getFullYear()} B-TELCO. All rights reserved.</p>
               </div>
           </div>
       `,
     };
-    
 
     await transporter.sendMail(adminMailOptions);
     await transporter.sendMail(clientMailOptions);
@@ -130,7 +132,6 @@ const submitForm = async (req, res) => {
     });
   }
 };
-
 const getQuote = async (req, res) => {
   try {
     const quotes = await Quote.find();
