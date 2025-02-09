@@ -13,9 +13,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-console.log("ZOHO_EMAIL", process.env.ZOHO_EMAIL)
-console.log("ZOHO_PASSWORD", process.env.ZOHO_PASSWORD)
-
 transporter.verify((error, success) => {
   if (error) {
     console.log("SMTP Connection Error:", error);
