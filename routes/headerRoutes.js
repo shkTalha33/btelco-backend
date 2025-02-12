@@ -4,11 +4,14 @@ const upload = require("../middleware/multer");
 const {
     createOrUpdateHeader,
     getHeaderByType,
-    deleteHeaderByType
+    deleteHeaderByType,
+    getAllHeaders
 } = require("../controllers/headerController");
+const verifyToken = require("../middleware/authMiddleware");
 
-router.post("/header", upload.single("image"), createOrUpdateHeader);
-router.get("/header/:type", getHeaderByType);
-router.delete("/header/:type", deleteHeaderByType);
+router.post("/header", verifyToken, createOrUpdateHeader);
+router.get("/header/:type", verifyToken, getHeaderByType);
+router.get("/header", verifyToken, getAllHeaders);
+router.delete("/header/:type", verifyToken, deleteHeaderByType);
 
 module.exports = router;

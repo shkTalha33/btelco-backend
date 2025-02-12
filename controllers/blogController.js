@@ -5,18 +5,8 @@ const fs = require("fs");
 // Create a new blog
 const createBlog = async (req, res) => {
     try {
-        const { title, description, type } = req.body;
-        let imageUrl = "";
-
-        if (req.file) {
-            const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
-            if (!cloudinaryResponse) {
-                return res.status(500).json({ success: false, message: "Image upload failed" });
-            }
-            imageUrl = cloudinaryResponse.secure_url;
-        }
-
-        const newBlog = new Blog({ title, description, type, image: imageUrl });
+        const { title, description, category } = req.body;
+        const newBlog = new Blog({ title, description, category });
         await newBlog.save();
 
         res.status(201).json({ success: true, message: "Blog created successfully", blog: newBlog });
@@ -28,20 +18,11 @@ const createBlog = async (req, res) => {
 // Update a blog by ID
 const updateBlog = async (req, res) => {
     try {
-        const { title, description, type } = req.body;
-        let imageUrl = req.body.image;
-
-        if (req.file) {
-            const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
-            if (!cloudinaryResponse) {
-                return res.status(500).json({ success: false, message: "Image upload failed" });
-            }
-            imageUrl = cloudinaryResponse.secure_url;
-        }
+        const { title, description, category } = req.body;
 
         const updatedBlog = await Blog.findByIdAndUpdate(
             req.params.id,
-            { title, description, type, image: imageUrl },
+            { title, description, category },
             { new: true }
         );
 

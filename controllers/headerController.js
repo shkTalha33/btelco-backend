@@ -3,20 +3,11 @@ const { uploadOnCloudinary } = require("../utils/cloudinary");
 
 exports.createOrUpdateHeader = async (req, res) => {
     try {
-        const { title, description, type } = req.body;
-        let imageUrl = "";
-
-        if (req.file) {
-            const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
-            if (!cloudinaryResponse) {
-                return res.status(500).json({ success: false, message: "Image upload failed" });
-            }
-            imageUrl = cloudinaryResponse.secure_url;
-        }
+        const { title, description, type, image } = req.body
 
         const updatedHeader = await Header.findOneAndUpdate(
             { type }, // Search by type (if exists, update)
-            { title, description, image: imageUrl },
+            { title, description, image },
             { new: true, upsert: true } // Update if exists, else create new
         );
 
@@ -29,6 +20,21 @@ exports.createOrUpdateHeader = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
+exports.getAllHeaders = async (req, res) => {
+    try {
+        const headers = await Header.find(); // Fetch all headers
+
+        if (!headers || headers.length === 0) {
+            return res.status(404).json({ success: false, message: "No headers found" });
+        }
+
+        res.status(200).json({ success: true, headers });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 
 exports.getHeaderByType = async (req, res) => {
     try {

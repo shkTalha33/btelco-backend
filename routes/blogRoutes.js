@@ -8,11 +8,12 @@ const {
   updateBlog,
   deleteBlog,
 } = require("../controllers/blogController");
+const verifyToken = require("../middleware/authMiddleware");
 
-router.post("/blogs", upload.single("image"), createBlog);
-router.get("/blogs", getAllBlogs);
-router.get("/blogs/:id", getBlogById);
-router.put("/blogs/:id", upload.single("image"), updateBlog);
-router.delete("/blogs/:id", deleteBlog);
+router.post("/blogs", verifyToken, createBlog);
+router.get("/blogs", verifyToken, getAllBlogs);
+router.get("/blogs/:id", verifyToken, getBlogById);
+router.put("/blogs/:id", verifyToken, updateBlog);
+router.delete("/blogs/:id", verifyToken, deleteBlog);
 
 module.exports = router;
