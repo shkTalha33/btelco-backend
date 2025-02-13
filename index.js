@@ -7,6 +7,10 @@ const blogRoutes = require("./routes/blogRoutes");
 const imageRoutes = require("./routes/imageRoutes");
 const headerRoutes = require("./routes/headerRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const serviceCategoryRoutes = require("./routes/serviceCategoryRoutes");
+const blogCategoryRoutes = require("./routes/blogCategoryRoutes");
+const serviceRoutes = require("./routes/serviceRoutes");
+const pageRoutes = require("./routes/pageRoutes");
 
 const app = express();
 
@@ -24,6 +28,10 @@ app.use("/api", blogRoutes);
 app.use("/api", headerRoutes);
 app.use("/api", imageRoutes);
 app.use("/api", adminRoutes);
+app.use("/api", serviceCategoryRoutes);
+app.use("/api", blogCategoryRoutes);
+app.use("/api", serviceRoutes);
+app.use("/api", pageRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 5000;

@@ -3,10 +3,10 @@ const { uploadOnCloudinary } = require("../utils/cloudinary");
 
 exports.createOrUpdateHeader = async (req, res) => {
     try {
-        const { title, description, type, image } = req.body
+        const { title, description, category, image } = req.body
 
         const updatedHeader = await Header.findOneAndUpdate(
-            { type }, // Search by type (if exists, update)
+            { category }, // Search by type (if exists, update)
             { title, description, image },
             { new: true, upsert: true } // Update if exists, else create new
         );
@@ -38,7 +38,7 @@ exports.getAllHeaders = async (req, res) => {
 
 exports.getHeaderByType = async (req, res) => {
     try {
-        const header = await Header.findOne({ type: req.params.type });
+        const header = await Header.findOne({ category: req.params.category });
 
         if (!header) return res.status(404).json({ success: false, message: "Header section not found" });
 
@@ -50,7 +50,7 @@ exports.getHeaderByType = async (req, res) => {
 
 exports.deleteHeaderByType = async (req, res) => {
     try {
-        const deletedHeader = await Header.findOneAndDelete({ type: req.params.type });
+        const deletedHeader = await Header.findOneAndDelete({ category: req.params.category });
 
         if (!deletedHeader) return res.status(404).json({ success: false, message: "Header section not found" });
 

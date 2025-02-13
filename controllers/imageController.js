@@ -6,9 +6,6 @@ const uploadImage = async (req, res) => {
       return res.status(400).json({ message: "No file uploaded" });
     }
 
-    console.log(req.body)
-    console.log(req.file)
-
     const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
     if (!cloudinaryResponse) {
       return res.status(500).json({ message: "Upload to Cloudinary failed" });
