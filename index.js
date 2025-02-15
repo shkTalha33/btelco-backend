@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const path = require("path")
 const cors = require("cors");
 const connectDB = require("./db");
 const quoteRoutes = require("./routes/quoteRoutes");
@@ -37,6 +38,8 @@ app.use("/api", serviceCategoryRoutes);
 app.use("/api", blogCategoryRoutes);
 app.use("/api", serviceRoutes);
 app.use("/api", pageRoutes);
+
+app.use("./public/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 // Start Server
 const PORT = process.env.PORT || 5000;
