@@ -5,13 +5,16 @@ const {
     createOrUpdateHeader,
     getHeaderByType,
     deleteHeaderByType,
-    getAllHeaders
+    getAllHeaders,
+    updateHeader,
+    createHeader
 } = require("../controllers/headerController");
 const verifyToken = require("../middleware/authMiddleware");
 
-router.post("/header", verifyToken, createOrUpdateHeader);
-router.get("/header/:category", verifyToken, getHeaderByType);
-router.get("/header", verifyToken, getAllHeaders);
+router.post("/header", verifyToken, createHeader);
+router.put("/header/:category", verifyToken, updateHeader);
+router.get("/header/:category", getHeaderByType);
+router.get("/header", getAllHeaders);
 router.delete("/header/:category", verifyToken, deleteHeaderByType);
 
 module.exports = router;

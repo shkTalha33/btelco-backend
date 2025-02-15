@@ -13,9 +13,9 @@ const verifyToken = require("../middleware/authMiddleware");
 const router = express.Router();
 
 // Routes
-router.post("/service/", verifyToken, createService);
-router.get("/service/", verifyToken, getServices);
-router.get("/service/:id", verifyToken, getServiceById);
+router.post("/service", verifyToken, createService);
+router.get("/service", getServices);
+router.get("/service/:id", getServiceById);
 router.put("/service/:id", verifyToken, updateService);
 router.delete("/service/:id", verifyToken, deleteService);
 
