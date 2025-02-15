@@ -18,7 +18,15 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors()); // Enable CORS for cross-origin requests
+app.use(
+  cors({
+    origin: "*", // Change to your frontend URL in production
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allow necessary HTTP methods
+    allowedHeaders: ["x-auth-token", "Content-Type"], // Explicitly allow x-auth-token
+    credentials: true, // If using cookies/sessions
+  })
+);
+
 app.use(express.json()); // Parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
 
