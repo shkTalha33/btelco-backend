@@ -39,7 +39,7 @@ app.use("/api", blogCategoryRoutes);
 app.use("/api", serviceRoutes);
 app.use("/api", pageRoutes);
 
-app.use("./public/uploads", express.static(path.join(__dirname, "public/uploads")));
+app.use("./public/images", express.static(path.join(__dirname, "public/images")));
 
 // Start Server
 const PORT = process.env.PORT || 5000;
