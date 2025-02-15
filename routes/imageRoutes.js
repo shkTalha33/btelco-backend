@@ -5,6 +5,6 @@ const { uploadImage } = require("../controllers/imageController");
 const verifyToken = require("../middleware/authMiddleware");
 
 // Route for uploading an image
-router.post("/image/upload", verifyToken, upload.single("image"), uploadImage);
+router.post("/image/upload", upload.single("image"), uploadImage);
 
 module.exports = router;
