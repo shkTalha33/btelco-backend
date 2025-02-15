@@ -20,9 +20,12 @@ connectDB();
 // Middleware
 app.use(
   cors({
-    origin: "*",
+    origin: ["http://localhost:3000"], // Allow only this origin
+    methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   })
 );
+
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
