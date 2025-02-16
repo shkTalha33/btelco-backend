@@ -5,8 +5,14 @@ const fs = require("fs");
 // Create a new blog
 const createBlog = async (req, res) => {
     try {
-        const { title, description, category } = req.body;
-        const newBlog = new Blog({ title, description, category });
+        const { title, description, category, image } = req.body;
+
+        // Validate required fields
+        if (!title || !description || !category || !image) {
+            return res.status(400).json({ success: false, message: "All fields are required: title, description, category, and image." });
+        }
+
+        const newBlog = new Blog({ title, description, category, image });
         await newBlog.save();
 
         res.status(201).json({ success: true, message: "Blog created successfully", blog: newBlog });
@@ -18,11 +24,16 @@ const createBlog = async (req, res) => {
 // Update a blog by ID
 const updateBlog = async (req, res) => {
     try {
-        const { title, description, category } = req.body;
+        const { title, description, category, image } = req.body;
+
+        // Validate required fields
+        if (!title || !description || !category || !image) {
+            return res.status(400).json({ success: false, message: "All fields are required: title, description, category, and image." });
+        }
 
         const updatedBlog = await Blog.findByIdAndUpdate(
             req.params.id,
-            { title, description, category },
+            { title, description, category, image },
             { new: true }
         );
 
@@ -35,6 +46,7 @@ const updateBlog = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
 
 const getAllBlogs = async (req, res) => {
     try {
