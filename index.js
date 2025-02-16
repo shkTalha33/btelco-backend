@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const path = require("path")
+const path = require("path");
 const cors = require("cors");
 const connectDB = require("./db");
 const quoteRoutes = require("./routes/quoteRoutes");
@@ -28,7 +28,7 @@ app.use(
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "/uploads")));
 
 // Routes
 app.use("/api", quoteRoutes);
