@@ -11,8 +11,8 @@ const {
 const verifyToken = require("../middleware/authMiddleware");
 
 router.post("/blogs", verifyToken, createBlog);
-router.get("/blogs", verifyToken, getAllBlogs);
-router.get("/blogs/:id", verifyToken, getBlogById);
+router.get("/blogs", getAllBlogs);
+router.get("/blogs/:id", getBlogById);
 router.put("/blogs/:id", verifyToken, updateBlog);
 router.delete("/blogs/:id", verifyToken, deleteBlog);
 
