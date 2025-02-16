@@ -8,20 +8,17 @@ const uploadImage = async (req, res) => {
 
     console.log("req.file", req.file);
 
-    const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
+    const cloudinaryResponse = await uploadOnCloudinary(req.file.buffer);
     if (!cloudinaryResponse) {
       return res.status(500).json({ message: "Upload to Cloudinary failed" });
     }
 
-    // Send the Cloudinary image URL to the frontend
     res.status(200).json({
       message: "Image uploaded successfully",
       image: cloudinaryResponse.secure_url,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Internal Server Error", error: error.message });
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
 };
 
