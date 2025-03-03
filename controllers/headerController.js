@@ -34,27 +34,36 @@ exports.updateHeader = async (req, res) => {
   try {
     const { title, description, category, image } = req.body;
 
-    // Check if the category exists
+    // Check if a different category already exists
     const existingHeader = await Header.findOne({ category });
 
-    if (!existingHeader) {
-      return res.status(404).json({
+    if (existingHeader) {
+      return res.status(400).json({
         success: false,
-        message: "Header section not found. Create it first.",
+        message: "Header with this category already exists",
       });
     }
 
-    // Update the existing header
-    existingHeader.title = title;
-    existingHeader.description = description;
-    existingHeader.image = image;
-    await existingHeader.save();
+    // Update the header if category does not exist
+    const updatedHeader = await Header.findByIdAndUpdate(
+      req.params.id,
+      { title, description, category, image },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedHeader) {
+      return res.status(404).json({
+        success: false,
+        message: "Header not found",
+      });
+    }
 
     res.status(200).json({
       success: true,
       message: "Header section updated successfully",
-      header: existingHeader,
+      header: updatedHeader,
     });
+
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -93,18 +102,19 @@ exports.getHeaderByType = async (req, res) => {
 
 exports.deleteHeaderByType = async (req, res) => {
   try {
-    const deletedHeader = await Header.findOneAndDelete({
-      category: req.params.category,
+    const deletedHeader = await Header.findByIdAndDelete(req.params.id);
+
+    if (!deletedHeader) {
+      return res.status(404).json({
+        success: false,
+        message: "Header section not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Header section deleted successfully",
     });
-
-    if (!deletedHeader)
-      return res
-        .status(404)
-        .json({ success: false, message: "Header section not found" });
-
-    res
-      .status(200)
-      .json({ success: true, message: "Header section deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
