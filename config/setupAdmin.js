@@ -17,9 +17,7 @@ const setupAdmin = async () => {
     if (!admin) {
       admin = new Admin({ email, password: hashedPassword });
       await admin.save();
-      console.log("Admin account created successfully.");
     } else {
-      console.log("Admin account already exists.");
     }
 
     mongoose.connection.close();
