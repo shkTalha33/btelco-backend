@@ -33,22 +33,23 @@ exports.createHeader = async (req, res) => {
 exports.updateHeader = async (req, res) => {
   try {
     const { title, description, category, image } = req.body;
+    const headerId = req.params.id;
 
-    // Check if a different category already exists
+    // Check if a different category already exists but with a different ID
     const existingHeader = await Header.findOne({ category });
 
-    if (existingHeader) {
+    if (existingHeader && existingHeader._id.toString() !== headerId) {
       return res.status(400).json({
         success: false,
         message: "Header with this category already exists",
       });
     }
 
-    // Update the header if category does not exist
+    // Update the header
     const updatedHeader = await Header.findByIdAndUpdate(
-      req.params.id,
+      headerId,
       { title, description, category, image },
-      { new: true } // Return the updated document
+      { new: true }
     );
 
     if (!updatedHeader) {
