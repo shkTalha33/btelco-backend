@@ -21,12 +21,13 @@ exports.createServiceCategory = async (req, res) => {
 // Get All ServiceCategories
 exports.getAllServiceCategories = async (req, res) => {
     try {
-        const categories = await ServiceCategory.find();
-        res.status(200).json({success: true, categories});
+        const categories = await ServiceCategory.find().sort({ name: 1 }); // Sorting by name in ascending order
+        res.status(200).json({ success: true, categories });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Get Single ServiceCategory
 exports.getServiceCategoryById = async (req, res) => {
