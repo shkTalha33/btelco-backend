@@ -13,7 +13,7 @@ const verifyToken = require("../middleware/authMiddleware");
 
 router.post("/header", verifyToken, createHeader);
 router.put("/header/:id", verifyToken, updateHeader);
-router.get("/header/:id", getHeaderByType);
+router.get("/header/:category", getHeaderByType);
 router.get("/header", getAllHeaders);
 router.delete("/header/:id", verifyToken, deleteHeaderByType);
 
